@@ -12,17 +12,18 @@
     <div class="main">
       <p>ビデオエンコード</p>
       <?php
-      $outputDir = "出力先ディレクトリ";
-      $dir = "動画検索ディレクトリ{*.mp4}";
+      $outputDir = "E:\share";
+      $dir = 'F:\録画データ\encoded/{*.mp4}';
 
       $no =1;
-      exec($outputDir, $opt, $return_ver);
+      exec("cd ".$outputDir, $opt, $return_ver);
+      echo $no."<br>";
       foreach(glob($dir,GLOB_BRACE) as $file){
           if(is_file($file)){
               $videoName = substr($file,27,-4);
               $videoPath = $file;
-              $outputVideoPath = "出力先ディレクトリを別にしたいときは書き換える".$videoName;
-              $cmd = "ffmpeg -hwaccel cuda -hwaccel_output_format cuda -i '".$videoPath."' -crf 14 -c:a aac -c:v h264_nvenc -segment_format mpegts -segment_time 30 -segment_list '".$videoName.".m3u8' -f segment -f segment '".$outputVideoPath."-%03d.ts'";
+              // $outputVideoPath = $outputDir."/".$videoName;
+              $cmd = "ffmpeg -hwaccel cuda -hwaccel_output_format cuda -i '".$videoPath."' -crf 14 -c:a aac -c:v h264_nvenc -segment_format mpegts -segment_time 30 -segment_list '".$videoName.".m3u8' -f segment -f segment '".$videoName."-%03d.ts'";
               exec($cmd, $opt, $return_ver);
 
               //実行結果の書き込み
@@ -32,6 +33,7 @@
 
               //エコー
               echo "No：".$no." "."実行結果：".$return_ver."<br>";
+              // echo "No：".$no." "."実行コマンド：".$cmd."<br>";
               $no++;
           }
       }
