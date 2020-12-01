@@ -13,4 +13,4 @@ cloneした後に以下を書き換える
 ```php:index.php
 $outputDir $dir $outputVideoPath
 ```
-書き換え後ファイルを実行するとエンコードが始まる
+書き換え後ファイルを実行するとエンコード用のコードが生成される
